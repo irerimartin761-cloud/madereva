@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MADEREVA.COM</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Poppins, sans-serif;
+            background: #ffffff;
+            color: #111;
+        }
+
+        /* Watermark */
+        .watermark {
+            position: fixed;
+            bottom: 15%;
+            right: 5%;
+            opacity: 0.05;
+            font-size: 80px;
+            font-family: Pacifico;
+            z-index: -1;
+            color: black;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 35px;
+            background: white;
+            border-bottom: 2px solid #eee;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .logo {
+            font-family: Pacifico;
+            font-size: 36px;
+        }
+        .logo-red { color: red; }
+        .logo-black { color: black; }
+
+        .mini-logo {
+            font-family: Pacifico;
+            font-size: 20px;
+        }
+        .mini-red { color: red; }
+        .mini-black { color: black; }
+
+        /* Hero */
+        .hero {
+            padding: 70px 20px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .hero-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .red-btn { background: red; color: white; }
+        .black-btn { background: black; color: white; }
+
+        .btn:hover { opacity: 0.8; }
+
+        /* Fleet Section */
+        .fleet {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .fleet-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .fleet-card {
+            width: 330px;
+            background: #f7f7f7;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding-bottom: 20px;
+        }
+
+        .fleet-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+        }
+
+        /* Map Section */
+        .map-section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .map-box {
+            width: 90%;
+            max-width: 900px;
+            height: 380px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: auto;
+            box-shadow: 0 5px 14px rgba(0,0,0,0.15);
+        }
+
+        /* Emergency Button */
+        .emergency-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: red;
+            color: white;
+            padding: 16px 22px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: none;
+            cursor: pointer;
+            z-index: 9999;
+            transition: 0.3s;
+        }
+        .emergency-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 35px;
+            background: #111;
+            color: white;
+            margin-top: 50px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Watermark -->
+    <div class="watermark">MADEREVA.COM</div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <span class="logo-red">MA</span><span class="logo-black">DEREVA</span><span class="logo-red">.COM</span>
+        </div>
+
+        <!-- small top-right text-logo -->
+        <div class="mini-logo">
+            <span class="mini-red">MA</span><span class="mini-black">DEREVA</span>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Premium Chauffeur Services</h1>
+        <p>Select your preferred style — Classic or Luxury</p>
+
+        <div class="hero-buttons">
+            <button class="btn red-btn" onclick="selectRide('luxury')">Luxury Chauffeur</button>
+            <button class="btn black-btn" onclick="selectRide('classic')">Classic Chauffeur</button>
+        </div>
+    </section>
+
+    <!-- FLEET SECTION -->
+    <section class="fleet">
+        <h2>Our Fleet</h2>
+
+        <div class="fleet-container">
+
+            <!-- Classic Cars -->
+            <div class="fleet-card">
+                <img src="https://source.unsplash.com/600x350/?classic-car,vintage" alt="Classic Car">
+                <h3>Classic Cars</h3>
+                <p>Stylish and timeless rides for weddings, VIP events, and premium travel.</p>
+                <button class="btn black-btn" onclick="selectRide('classic')">Request Classic Car</button>
+            </div>
+
+            <!-- Luxury Cars -->
+            <div class="fleet-card">
+                <img src="https://source.unsplash.com/600x350/?luxury-car,mercedes" alt="Luxury Car">
+                <h3>Luxury Cars</h3>
+                <p>Executive comfort and professional chauffeurs for prestige travel.</p>
+                <button class="btn red-btn" onclick="selectRide('luxury')">Request Luxury Car</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MAP SECTION -->
+    <section class="map-section">
+        <h2>Our Service Locations</h2>
+        <p>Find our nearest driver or service point.</p>
+
+        <div class="map-box">
+            <!-- Google Maps Placeholder -->
+            <iframe 
+                width="100%" 
+                height="100%" 
+                frameborder="0" 
+                style="border:0" 
+                src="https://www.google.com/maps/embed/v1/place?q=Nairobi,Kenya&key=YOUR_API_KEY" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </section>
+
+    <!-- EMERGENCY BUTTON -->
+    <button class="emergency-btn" onclick="emergencyCall()">EMERGENCY</button>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        © 2025 MADEREVA.COM — Professional Chauffeur Solutions
+    </footer>
+
+<script>
+function selectRide(type) {
+    if (type === "luxury") {
+        alert("Luxury Chauffeur Request — Form Coming Soon!");
+    } else {
+        alert("Classic Chauffeur Request — Form Coming Soon!");
+    }
+}
+
+function emergencyCall() {
+    alert("Emergency Request Sent! A driver will be assigned immediately.");
+}
+</script>
+
+</body>
+</html>
