@@ -1,0 +1,18 @@
+madereva/
+├─ web/                      # front-end (static or React)
+│  ├─ index.html
+│  ├─ styles.css
+│  └─ app.js
+├─ server/
+│  ├─ src/
+│  │  ├─ controllers/
+│  │  ├─ services/
+│  │  ├─ sockets/
+│  │  └─ routes/
+│  ├─ package.json
+│  └─ README.md
+├─ infra/
+│  └─ terraform/ or docker-compose.yaml
+├─ docs/
+│  └─ api-openapi.yaml
+└─ README.md
