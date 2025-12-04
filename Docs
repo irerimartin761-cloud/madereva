@@ -1,0 +1,309 @@
+<!--
+Repository: madereva.com
+Files included below as separate sections: index.html, styles.css, app.js, README.md
+PLEASE SAVE THIS SET AS: original_001 (user requested 'save only as original 001')
+This is a single-file bundle for preview; copy each section into separate files in your GitHub repo.
+-->
+
+--- index.html ---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Madereva — Sender & Receiver Portals</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Madereva logo" class="logo" />
+      <h1 class="sr-only">Madereva</h1>
+    </div>
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+      <button id="nav-sender" class="nav-btn">Sender Portal</button>
+      <button id="nav-receiver" class="nav-btn">Receiver Portal</button>
+      <button id="nav-drivers" class="nav-btn">Drivers</button>
+      <button id="nav-jobs" class="nav-btn">Jobs</button>
+    </nav>
+  </header>
+
+  <main id="main" class="container">
+    <!-- Landing / Dashboard -->
+    <section id="landing" class="panel" aria-live="polite">
+      <h2>Welcome to Madereva</h2>
+      <p>Two portals: <strong>Sender (employer)</strong> and <strong>Receiver (driver)</strong>.</p>
+      <div class="cta-row">
+        <button class="cta" data-target="sender-portal">Go to Sender Portal</button>
+        <button class="cta" data-target="receiver-portal">Go to Receiver Portal</button>
+      </div>
+    </section>
+
+    <!-- Sender Portal -->
+    <section id="sender-portal" class="panel hidden" aria-hidden="true">
+      <h2>Sender Portal</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Create Job</h3>
+          <form id="create-job-form">
+            <label>From <input name="from" required></label>
+            <label>To <input name="to" required></label>
+            <label>Pickup date/time <input type="datetime-local" name="pickup"></label>
+            <label>Details <textarea name="details"></textarea></label>
+            <button type="submit">Create Job</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Drivers</h3>
+          <div id="driver-list" aria-live="polite"></div>
+        </div>
+        <div class="card">
+          <h3>Job Queue</h3>
+          <div id="sender-job-queue"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Receiver Portal -->
+    <section id="receiver-portal" class="panel hidden" aria-hidden="true">
+      <h2>Receiver (Driver) Portal</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Profile</h3>
+          <form id="driver-profile-form">
+            <label>Full name <input name="fullname" required></label>
+            <label>Phone <input name="phone"></label>
+            <label>Vehicle/Assets <input name="assets" placeholder="e.g. motorbike, trailer"></label>
+            <label>Other Abilities <textarea name="abilities"></textarea></label>
+            <div class="profile-actions">
+              <button id="upload-docs">Upload Documents</button>
+              <button id="generate-badge">Generate Sample Badge</button>
+            </div>
+          </form>
+        </div>
+        <div class="card">
+          <h3>My Jobs & Status</h3>
+          <div id="driver-job-queue"></div>
+          <div class="status-row">
+            <label>Online <input type="checkbox" id="driver-online"></label>
+            <button id="sos-driver" class="sos" aria-label="Driver SOS">SOS</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Driver Detail / Documents Modal -->
+    <div id="driver-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="driver-modal-title">
+      <div class="modal-panel">
+        <h3 id="driver-modal-title">Driver Documents & Profile</h3>
+        <div id="driver-docs"></div>
+        <button id="prompt-upload" class="secondary">Prompt Driver to Upload Documents</button>
+        <button id="view-abilities">Other Abilities</button>
+        <button id="close-modal">Close</button>
+      </div>
+    </div>
+
+    <!-- Jobs area used by both portals -->
+    <section id="jobs-panel" class="panel hidden" aria-hidden="true">
+      <h2>Jobs</h2>
+      <div id="jobs-list"></div>
+    </section>
+
+  </main>
+
+  <!-- Lower-left persistent logo placement -->
+  <div class="sticky-logo">
+    <img src="assets/logo.png" alt="Madereva logo" />
+  </div>
+
+  <!-- Global SOS for Senders -->
+  <button id="sos-sender" class="sos sticky-top" aria-label="Sender SOS">SOS</button>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
+
+--- styles.css ---
+/* Separate file: styles.css */
+:root{
+  --black:#111;
+  --white:#fff;
+  --red:#d62828;
+  --yellow:#fcbf49;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box}
+body{font-family:Inter, Arial, sans-serif; margin:0; color:var(--black); background:var(--white);}
+.container{max-width:1100px;margin:1rem auto;padding:1rem}
+.site-header{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border-bottom:4px solid var(--yellow)}
+.logo{height:48px}
+.nav-btn{margin:0 .25rem;padding:.5rem 1rem;border-radius:8px;border:2px solid var(--black);background:transparent}
+.cta{padding:.75rem 1.2rem;margin:.5rem;border-radius:999px;border:0;background:var(--red);color:var(--white)}
+.grid{display:grid;gap:1rem;grid-template-columns:1fr;}
+.card{background:#fafafa;border:1px solid #e6e6e6;padding:1rem;border-radius:12px}
+.panel{margin:1rem 0}
+.hidden{display:none}
+.sticky-logo{position:fixed;left:12px;bottom:12px;z-index:1000}
+.sticky-logo img{width:64px;height:auto}
+.sos{background:var(--red);color:var(--white);border:0;padding:.6rem 1rem;border-radius:8px}
+.sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link{position:absolute;left:-9999px}
+@media(min-width:700px){ .grid{grid-template-columns:1fr 1fr} }
+
+/* Accessibility focus states */
+button:focus, a:focus, input:focus, textarea:focus{outline:3px solid var(--yellow);outline-offset:2px}
+
+/* Small adjustments for mobile touch targets */
+button, input, textarea{font-size:16px}
+
+--- app.js ---
+// Separate file: app.js
+// Light client-side demo logic. Replace / extend with real backend integration.
+(() => {
+  const qs = s => document.querySelector(s);
+  const qsa = s => document.querySelectorAll(s);
+
+  // Navigation
+  document.querySelectorAll('.nav-btn, .cta').forEach(btn => btn.addEventListener('click', e => {
+    const target = btn.dataset.target || (btn.id==='nav-sender' ? 'sender-portal' : btn.id==='nav-receiver' ? 'receiver-portal' : 'landing');
+    document.querySelectorAll('.panel').forEach(p=>{ p.classList.add('hidden'); p.setAttribute('aria-hidden','true') });
+    const el = document.getElementById(target);
+    if(el){ el.classList.remove('hidden'); el.removeAttribute('aria-hidden'); el.scrollIntoView({behavior:'smooth'}) }
+  }));
+
+  // Demo storage
+  const getDrivers = () => JSON.parse(localStorage.getItem('madereva_drivers')||'[]');
+  const setDrivers = d => localStorage.setItem('madereva_drivers', JSON.stringify(d));
+
+  // Create job
+  qs('#create-job-form').addEventListener('submit', e=>{
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const job = {id: Date.now(), from: form.get('from'), to: form.get('to'), pickup: form.get('pickup'), details: form.get('details'), status:'open'};
+    const jobs = JSON.parse(localStorage.getItem('madereva_jobs')||'[]'); jobs.push(job); localStorage.setItem('madereva_jobs', JSON.stringify(jobs));
+    renderJobs();
+    alert('Job created (demo). In production this will notify drivers according to distance & queue rules.');
+    e.target.reset();
+  });
+
+  // Render drivers
+  function renderDrivers(){
+    const container = qs('#driver-list'); container.innerHTML='';
+    const drivers = getDrivers();
+    if(!drivers.length){ container.innerHTML='<p>No drivers yet (demo). Use Driver Portal to create one.</p>' }
+    drivers.forEach(d=>{
+      const el = document.createElement('div'); el.className='driver-row';
+      el.innerHTML = `<strong>${d.fullname||'Unnamed'}</strong> <small>— ${d.status||'unverified'}</small> <button data-id="${d.id}" class="view-driver">View</button>`;
+      container.appendChild(el);
+    });
+  }
+
+  // Render jobs
+  function renderJobs(){
+    const list = qs('#jobs-list') || document.createElement('div'); list.innerHTML='';
+    const jobs = JSON.parse(localStorage.getItem('madereva_jobs')||'[]');
+    if(!jobs.length) list.innerHTML='<p>No jobs</p>';
+    jobs.forEach(j=>{
+      const node = document.createElement('div'); node.className='job-item card';
+      node.innerHTML = `<div><strong>${j.from} → ${j.to}</strong><div>${j.details||''}</div><div>Pickup: ${j.pickup||'N/A'}</div></div><div><button data-job="${j.id}" class="assign-job">Assign</button></div>`;
+      list.appendChild(node);
+    });
+    qs('#jobs-list') && (qs('#jobs-list').innerHTML = list.innerHTML);
+  }
+
+  // Driver profile form handling
+  qs('#driver-profile-form').addEventListener('submit', e=>{ e.preventDefault(); const fd = new FormData(e.target); const drivers = getDrivers(); const drv = {id: Date.now(), fullname: fd.get('fullname'), phone: fd.get('phone'), assets: fd.get('assets'), abilities: fd.get('abilities'), status:'pending', hasUniform:false}; drivers.push(drv); setDrivers(drivers); renderDrivers(); alert('Profile saved (demo). Vetting process and access-code flow should be server-side.'); e.target.reset(); });
+
+  // Upload documents (demo) - opens file picker (no upload to server in demo)
+  qs('#upload-docs').addEventListener('click', e=>{ e.preventDefault(); const input = document.createElement('input'); input.type='file'; input.multiple=true; input.onchange = ()=> alert('Files selected (demo). In production these would be uploaded securely and flagged on driver profile.'); input.click(); });
+
+  // Generate sample badge
+  qs('#generate-badge').addEventListener('click', e=>{
+    e.preventDefault(); const name = qs('#driver-profile-form [name="fullname"]').value || 'Demo Driver'; const ticket = Math.floor(Math.random()*90000)+10000;
+    const badge = `Badge\nName: ${name}\nTicket: ${ticket}`;
+    // Create downloadable text file as demo
+    const blob = new Blob([badge], {type:'text/plain'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `badge_${ticket}.txt`; a.click(); URL.revokeObjectURL(url);
+  });
+
+  // Modal interactions
+  qs('#close-modal').addEventListener('click', ()=>{ qs('#driver-modal').classList.add('hidden'); qs('#driver-modal').setAttribute('aria-hidden','true') });
+  qs('#prompt-upload').addEventListener('click', ()=> alert('Prompt sent to driver (demo). In production send push/notification or SMS with secure link.'));
+  qs('#view-abilities').addEventListener('click', ()=> alert('Open Other Abilities panel (demo).'));
+
+  // SOS buttons
+  qs('#sos-driver').addEventListener('click', ()=>{ alert('SOS triggered (driver). In production: send location & call emergency flow.'); });
+  qs('#sos-sender').addEventListener('click', ()=>{ alert('SOS triggered (sender). In production: send notification to operator & nearest drivers.'); });
+
+  // Basic live rendering
+  renderDrivers(); renderJobs();
+
+  // Accessibility: keyboard shortcut to open Sender portal: Alt+S
+  window.addEventListener('keydown', e=>{ if(e.altKey && e.key.toLowerCase()==='s'){ document.getElementById('sender-portal').classList.remove('hidden'); document.getElementById('sender-portal').removeAttribute('aria-hidden'); } });
+
+  // Demo assign job logic (first-come-first-served + distance placeholder)
+  document.body.addEventListener('click', e=>{
+    if(e.target.matches('.assign-job')){
+      const jobId = Number(e.target.dataset.job); const jobs = JSON.parse(localStorage.getItem('madereva_jobs')||'[]'); const job = jobs.find(j=>j.id===jobId);
+      const drivers = getDrivers().filter(d=>d.status==='verified' || d.status==='active');
+      // Simplified priority: sort by mocked distance then by registration time
+      drivers.sort((a,b)=> (a.mockDistance||1000)-(b.mockDistance||1000) || (a.id-b.id));
+      if(drivers.length===0){ alert('No available drivers (demo)'); return; }
+      const driver = drivers[0]; job.status='assigned'; job.driverId=driver.id; localStorage.setItem('madereva_jobs', JSON.stringify(jobs)); alert(`Job ${job.id} assigned to ${driver.fullname} (demo).`);
+      renderJobs();
+    }
+    if(e.target.matches('.view-driver')){
+      const id = Number(e.target.dataset.id); const drivers = getDrivers(); const d = drivers.find(x=>x.id===id);
+      qs('#driver-docs').innerHTML = `<p><strong>${d.fullname}</strong></p><p>Status: ${d.status}</p><p>Assets: ${d.assets||'—'}</p><p>Abilities: ${d.abilities||'—'}</p>`;
+      qs('#driver-modal').classList.remove('hidden'); qs('#driver-modal').removeAttribute('aria-hidden');
+    }
+  });
+
+})();
+
+--- README.md ---
+# Madereva (demo)
+
+This bundle contains a front-end demo for madereva.com. The files are separated above; copy each section into its respective file in your GitHub repository: `index.html`, `styles.css`, `app.js`, and `assets/logo.png` (replace with your real logo).
+
+## Goals & Features
+- Separate Sender (employer) and Receiver (driver) portals
+- Driver profile, documents area, "Other Abilities" button
+- Job creation and a simple job queue for demonstration
+- Badge generator, SOS button on both portals
+- Persistent lower-left logo on every page
+- Accessibility features: skip link, focus outlines, ARIA attributes
+
+## Important production requirements (what to implement server-side)
+1. **Authentication & Vetting:** Implement a secure vetting workflow. Drivers should only receive registration form after verification & payment. Use secure payment gateway (e.g., Stripe, Paystack) to provide an Access Code upon successful payment.
+2. **Document storage & verification:** Use a secure storage bucket (S3 / Cloud Storage) and virus scanning. Documents should have verification status visible to Sender and Driver.
+3. **Real-time job queue & matching:** Use WebSockets (Socket.IO / Pusher) or a server-sent events architecture. Matching algorithm should consider: distance, ETA, driver availability, previous job quality score, and first-come-first-served tie-breaking.
+4. **Driver status & ETA-based availability:** Drivers' online status should update based on projected completion times; an ETA system should transition drivers from busy → turnaround → available automatically.
+5. **Two-way route optimization:** Implement route pairing (return jobs) using geospatial queries (PostGIS / MongoDB geo) and a scheduler that proposes profitable return or nearby jobs.
+6. **Security checks:** Verify driver uniform, badge validity (QR code + server validation), and active internet connection (heartbeat ping). Consider periodic photo verification on shift start.
+7. **SOS & emergency flow:** Integrate SMS + push notifications and optionally a 3rd-party emergency response API.
+8. **Compliance & privacy:** PII handling, GDPR/Kenya Data Protection Act compliance, secure backups, and audit logs.
+
+## Suggested repository structure
+```
+madereva/
+├─ assets/
+│  └─ logo.png
+├─ index.html
+├─ styles.css
+├─ app.js
+├─ README.md
+└─ server/   # backend: auth, jobs matching, notifications
+```
+
+## Deploying
+- Create a GitHub repo `madereva`. Commit files. Enable GitHub Pages from `main` branch (`/docs` or root).
+- For production, deploy backend separately (Heroku, Railway, Vercel functions, or your own server) and point the front-end API calls to it.
+
+## Notes
+- This bundle is a front-end demo and proof-of-concept; it contains no real payment integration or secure uploads. Replace demo logic with proper server-side endpoints before launching.
+
+---
+
+<!-- Save instruction: save only as original_001 -->
